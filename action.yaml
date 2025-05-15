@@ -7,7 +7,7 @@ auth:
   type: bearer
   authorization_url: https://runwayml.com/
   verification_tokens:
-    openai: placeholder-verification-token
+    openai: key_22295196d0e9eeaaf31e318b15bee2c778ebeb443003dbc95fbc8ad787d766822c68022172233caa745191d32c064c9bbb55df254b4d8e1a635d04ccc6bc41e0
 api:
   type: openapi
   url: https://jaximusjoker.github.io/runway-gpt-action/
