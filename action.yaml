@@ -1,18 +1,15 @@
 schema_version: 1.0
-name_for_human: Runway Video Generator
-name_for_model: runwayVideo
-description_for_human: Generate videos using an image and text prompt with Runway Gen-4 Turbo.
-description_for_model: Generate a video from an image and prompt using the Runway image_to_video API.
+name_for_model: runwayGen2
+name_for_human: Runway Gen-2 Video
+description_for_model: Use this tool to generate videos from text prompts using Runway's Gen-2 model.
+description_for_human: Generates a short AI video from your text description.
 auth:
-  type: bearer
-  authorization_url: https://runwayml.com/
+  type: api_key
+  authorization_type: bearer
+  api_key_name: Authorization
   verification_tokens:
     openai: key_22295196d0e9eeaaf31e318b15bee2c778ebeb443003dbc95fbc8ad787d766822c68022172233caa745191d32c064c9bbb55df254b4d8e1a635d04ccc6bc41e0
 api:
   type: openapi
-  url: https://jaximusjoker.github.io/runway-gpt-action/
-  headers:
-    X-Runway-Version: "2024-11-06"
-logo_url: https://static.runwayml.com/assets/logo.svg
-contact_email: support@runwayml.com
-legal_info_url: https://runwayml.com/legal
+  url:  https://jaximusjoker.github.io/runway-gpt-action/
+  has_user_auth: false
