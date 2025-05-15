@@ -1,0 +1,18 @@
+schema_version: 1.0
+name_for_human: Runway Video Generator
+name_for_model: runwayVideo
+description_for_human: Generate videos using an image and text prompt with Runway Gen-4 Turbo.
+description_for_model: Generate a video from an image and prompt using the Runway image_to_video API.
+auth:
+  type: bearer
+  authorization_url: https://runwayml.com/
+  verification_tokens:
+    openai: placeholder-verification-token
+api:
+  type: openapi
+  url: https://YOUR-HOST.com/runway-openapi.yaml  # Replace with your hosted YAML URL
+  headers:
+    X-Runway-Version: "2024-11-06"
+logo_url: https://static.runwayml.com/assets/logo.svg
+contact_email: support@runwayml.com
+legal_info_url: https://runwayml.com/legal
