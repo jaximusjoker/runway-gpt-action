@@ -1,20 +1,17 @@
 openapi: 3.1.0
 info:
-  title: Runway Gen-4 Turbo API
-  description: Generate videos using an image and text prompt via Runway's Gen-4 Turbo model.
+  title: Runway Gen-2 Video Generator API
+  description: Generate AI videos using Runway's Gen-2 API from text prompts.
   version: 1.0.0
 servers:
-  - url: https://api.dev.runwayml.com/v1
-    description: Runway Dev Server
+  - url: https://api.runwayml.com
+    description: Runway API server
 paths:
-  /image_to_video:
+  /v1/gen/video:
     post:
-      operationId: generateVideoFromImage
-      summary: Generate a video using an image and a text prompt.
-      description: |
-        Uses the Gen-4 Turbo model to generate a short video from an input image and prompt.
-      security:
-        - bearerAuth: []
+      operationId: generateVideo
+      summary: Generate a video from a text prompt
+      description: Submit a text prompt to Runway's Gen-2 API to generate a video.
       requestBody:
         required: true
         content:
@@ -22,36 +19,31 @@ paths:
             schema:
               type: object
               required:
-                - promptImage
-                - seed
-                - model
-                - promptText
-                - duration
-                - ratio
+                - prompt
               properties:
-                promptImage:
+                prompt:
                   type: string
-                  format: uri
-                  description: URL of the input image.
+                  description: A text description of the video to generate.
                 seed:
                   type: integer
-                  description: Seed value for deterministic generation.
-                model:
+                  description: Optional random seed for reproducibility.
+                output_format:
                   type: string
-                  enum: [gen4_turbo]
-                  description: The model to use (currently only supports "gen4_turbo").
-                promptText:
-                  type: string
-                  description: Description of the video content to generate.
-                duration:
+                  enum: [mp4, gif]
+                  default: mp4
+                  description: Desired output video format.
+                interpolation_frames:
                   type: integer
-                  description: Duration of the video in seconds.
-                ratio:
-                  type: string
-                  description: Aspect ratio of the video (e.g., "1280:720").
+                  description: Optional number of interpolation frames.
+                fps:
+                  type: integer
+                  description: Desired video frames per second.
+                num_frames:
+                  type: integer
+                  description: Number of video frames to generate.
       responses:
         '200':
-          description: Generation response with job status or video URL.
+          description: A URL pointing to the generated video.
           content:
             application/json:
               schema:
@@ -59,17 +51,22 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: Unique ID of the generation job.
-                  status:
-                    type: string
-                    description: Job status (e.g., "queued", "completed").
-                  output_url:
+                    description: ID of the video generation job.
+                  url:
                     type: string
                     format: uri
-                    description: URL to the generated video (if available).
+                    description: URL to download or view the generated video.
+        '400':
+          description: Bad request - check your input prompt and parameters.
+        '401':
+          description: Unauthorized - invalid API key.
+        '500':
+          description: Internal server error - something went wrong on Runway's side.
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+security:
+  - ApiKeyAuth: []
