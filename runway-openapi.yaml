@@ -10,7 +10,7 @@ auth:
     openai: placeholder-verification-token
 api:
   type: openapi
-  url: https://gist.github.com/jaximusjoker/9b36f6efd80cd0de7522cf71d93fbf0f
+  url: https://jaximusjoker.github.io/runway-gpt-action/
   headers:
     X-Runway-Version: "2024-11-06"
 logo_url: https://static.runwayml.com/assets/logo.svg
