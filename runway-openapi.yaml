@@ -1,18 +1,75 @@
-schema_version: 1.0
-name_for_human: Runway Video Generator
-name_for_model: runwayVideo
-description_for_human: Generate videos using an image and text prompt with Runway Gen-4 Turbo.
-description_for_model: Generate a video from an image and text prompt using Runway.
-auth:
-  type: bearer
-  authorization_url: https://runwayml.com/
-  verification_tokens:
-    openai: placeholder-verification-token
-api:
-  type: openapi
-  url: https://jaximusjoker.github.io/runway-gpt-action/
-  headers:
-    X-Runway-Version: "2024-11-06"
-logo_url: https://static.runwayml.com/assets/logo.svg
-contact_email: support@runwayml.com
-legal_info_url: https://runwayml.com/legal
+openapi: 3.1.0
+info:
+  title: Runway Gen-4 Turbo API
+  description: Generate videos using an image and text prompt via Runway's Gen-4 Turbo model.
+  version: 1.0.0
+servers:
+  - url: https://api.dev.runwayml.com/v1
+    description: Runway Dev Server
+paths:
+  /image_to_video:
+    post:
+      operationId: generateVideoFromImage
+      summary: Generate a video using an image and a text prompt.
+      description: |
+        Uses the Gen-4 Turbo model to generate a short video from an input image and prompt.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - promptImage
+                - seed
+                - model
+                - promptText
+                - duration
+                - ratio
+              properties:
+                promptImage:
+                  type: string
+                  format: uri
+                  description: URL of the input image.
+                seed:
+                  type: integer
+                  description: Seed value for deterministic generation.
+                model:
+                  type: string
+                  enum: [gen4_turbo]
+                  description: The model to use (currently only supports "gen4_turbo").
+                promptText:
+                  type: string
+                  description: Description of the video content to generate.
+                duration:
+                  type: integer
+                  description: Duration of the video in seconds.
+                ratio:
+                  type: string
+                  description: Aspect ratio of the video (e.g., "1280:720").
+      responses:
+        '200':
+          description: Generation response with job status or video URL.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique ID of the generation job.
+                  status:
+                    type: string
+                    description: Job status (e.g., "queued", "completed").
+                  output_url:
+                    type: string
+                    format: uri
+                    description: URL to the generated video (if available).
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
