@@ -10,7 +10,7 @@ auth:
     openai: placeholder-verification-token
 api:
   type: openapi
-  url: https://YOUR-HOST.com/runway-openapi.yaml  # Replace with your hosted YAML URL
+  url: https://jaximusjoker.github.io/runway-gpt-action/
   headers:
     X-Runway-Version: "2024-11-06"
 logo_url: https://static.runwayml.com/assets/logo.svg
